@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面未找到 - 35NB</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+            background: #4cc9f0;
+            border-radius: 6px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .error-code {
+            font-size: 10rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #4cc9f0 0%, #4361ee 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #e0e0e0;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            background: #4361ee;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+            background: #3a56d4;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #4361ee;
+            box-shadow: none;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+        
+        .search-box {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .search-box input::placeholder {
+            color: #aaa;
+        }
+        
+        .search-box button {
+            padding: 12px 25px;
+            background: #4361ee;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .search-box button:hover {
+            background: #3a56d4;
+        }
+        
+        .help-links {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .help-link {
+            color: #4cc9f0;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .help-link:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background: rgba(76, 201, 240, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        .info-section {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            text-align: left;
+        }
+        
+        .info-section h3 {
+            color: #4cc9f0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-section ul {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+        
+        .info-section li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .info-section li:before {
+            content: "•";
+            color: #4361ee;
+            position: absolute;
+            left: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .resource-request {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #4361ee;
+        }
+        
+        .resource-request p {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .request-btn {
+            padding: 8px 16px;
+            background: #4cc9f0;
+            color: #16213e;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .request-btn:hover {
+            background: #3ab0d6;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #4361ee;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5 ease;
+            z-index: 100;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 8rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+            
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .logo {
+                top: 20px;
+                left: 20px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .error-code {
+                font-size: 6rem;
+            }
+            
+            .actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .help-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="https://35nb.bmzy.pw" class="logo">
+        <div class="logo-icon">35</div>
+        35NB
+    </a>
+    
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <div class="container">
+        <div class="error-code">404</div>
+        <h1>页面好像迷路了</h1>
+        <p>抱歉，您访问的页面不存在。可能是URL输入错误，或者页面已被移动或删除。</p>
+        
+        <div class="actions">
+            <a href="https://35nb.bmzy.pw" class="btn">
+                <i class="fas fa-home"></i>&nbsp; 返回首页
+            </a>
+            <a href="javascript:history.back()" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i>&nbsp; 返回上页
+            </a>
+            <button id="refreshBtn" class="btn btn-secondary">
+                <i class="fas fa-redo"></i>&nbsp; 刷新页面
+            </button>
+        </div>
+        
+        <div class="search-box">
+            <input type="text" placeholder="搜索您需要的内容...">
+            <button>
+                <i class="fas fa-search"></i>&nbsp; 搜索
+            </button>
+        </div>
+        
+        <div class="info-section">
+            <h3><i class="fas fa-info-circle"></i> 资源跳转说明</h3>
+            <p>本站已配置资源跳转功能：</p>
+            <ul>
+                <li>访问不存在的页面会自动跳转至此404页面</li>
+                <li>请求不存在的资源文件也会跳转至此页面</li>
+                <li>您可以使用上方搜索功能查找所需内容</li>
+                <li>如需特定资源，可使用下方功能提交请求</li>
+            </ul>
+            
+            <div class="resource-request">
+                <p><strong>没有找到您需要的资源？</strong></p>
+                <p>告诉我们您需要什么，我们会考虑添加：</p>
+                <input type="text" id="resourceInput" placeholder="输入您需要的资源名称..." style="width: 100%; padding: 10px; margin: 10px 0; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: white;">
+                <button class="request-btn" id="submitRequest">
+                    <i class="fas fa-paper-plane"></i>&nbsp; 提交请求
+                </button>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h3><i class="fas fa-lightbulb"></i> 您可以尝试：</h3>
+            <ul>
+                <li>检查网址是否正确</li>
+                <li>使用上方搜索框查找内容</li>
+                <li>浏览网站首页获取最新信息</li>
+                <li>联系网站管理员寻求帮助</li>
+            </ul>
+        </div>
+        
+        <div class="help-links">
+            <a href="https://35nb.bmzy.pw" class="help-link">
+                <i class="fas fa-home"></i>&nbsp; 网站首页
+            </a>
+            <a href="#" class="help-link">
+                <i class="fas fa-sitemap"></i>&nbsp; 网站地图
+            </a>
+            <a href="#" class="help-link">
+                <i class="fas fa-question-circle"></i>&nbsp; 帮助中心
+            </a>
+            <a href="#" class="help-link">
+                <i class="fas fa-envelope"></i>&nbsp; 联系我们
+            </a>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">
+        资源请求已提交，感谢您的反馈！
+    </div>
+
+    <script>
+        // 创建浮动元素
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatingElements = document.getElementById('floatingElements');
+            const elementCount = 12;
+            
+            for (let i = 0; i < elementCount; i++) {
+                const element = document.createElement('div');
+                element.classList.add('floating-element');
+                
+                // 随机大小
+                const size = Math.random() * 40 + 15;
+                element.style.width = `${size}px`;
+                element.style.height = `${size}px`;
+                
+                // 随机位置
+                element.style.left = `${Math.random() * 100}%`;
+                element.style.top = `${Math.random() * 100 + 100}%`;
+                
+                // 随机动画延迟
+                element.style.animationDelay = `${Math.random() * 10}s`;
+                
+                floatingElements.appendChild(element);
+            }
+            
+            // 搜索功能
+            const searchButton = document.querySelector('.search-box button');
+            const searchInput = document.querySelector('.search-box input');
+            
+            searchButton.addEventListener('click', function() {
+                if (searchInput.value.trim() !== '') {
+                    // 在实际应用中，这里应该跳转到搜索页面
+                    window.location.href = `https://35nb.bmzy.pw/search?q=${encodeURIComponent(searchInput.value)}`;
+                }
+            });
+            
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchButton.click();
+                }
+            });
+            
+            // 刷新按钮功能
+            const refreshBtn = document.getElementById('refreshBtn');
+            refreshBtn.addEventListener('click', function() {
+                window.location.reload();
+            });
+            
+            // 资源请求功能
+            const submitRequestBtn = document.getElementById('submitRequest');
+            const resourceInput = document.getElementById('resourceInput');
+            const notification = document.getElementById('notification');
+            
+            submitRequestBtn.addEventListener('click', function() {
+                if (resourceInput.value.trim() !== '') {
+                    // 在实际应用中，这里应该发送请求到服务器
+                    console.log(`资源请求: ${resourceInput.value}`);
+                    
+                    // 显示通知
+                    notification.textContent = `资源请求已提交: ${resourceInput.value}`;
+                    notification.classList.add('show');
+                    
+                    // 3秒后隐藏通知
+                    setTimeout(function() {
+                        notification.classList.remove('show');
+                    }, 3000);
+                    
+                    // 清空输入框
+                    resourceInput.value = '';
+                } else {
+                    notification.textContent = '请输入资源名称';
+                    notification.classList.add('show');
+                    
+                    setTimeout(function() {
+                        notification.classList.remove('show');
+                    }, 3000);
+                }
+            });
+            
+            resourceInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    submitRequestBtn.click();
+                }
+            });
+            
+            // 模拟资源跳转检测
+            const currentPath = window.location.pathname;
+            const fileExtensions = ['.jpg', '.png', '.gif', '.pdf', '.doc', '.zip', '.mp4', '.mp3'];
+            
+            const isResourceRequest = fileExtensions.some(ext => currentPath.includes(ext));
+            
+            if (isResourceRequest) {
+                const fileName = currentPath.split('/').pop();
+                document.querySelector('h1').textContent = '资源未找到';
+                document.querySelector('p').innerHTML = `抱歉，您请求的资源 <strong>${fileName}</strong> 不存在。<br>它可能已被移动或删除，或者您输入的URL不正确。`;
+                
+                // 更新资源请求部分的提示
+                const resourceRequestSection = document.querySelector('.resource-request p');
+                resourceRequestSection.innerHTML = `<strong>没有找到 "${fileName}"？</strong>`;
+            }
+        });
+    </script>
+</body>
+</html>
