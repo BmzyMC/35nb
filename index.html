@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>七年级35班 - 官方网站</title>
+    <link rel="icon" href="http://35nb.bmzy.pw/1.jpg" type="image/jpeg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #f1c40f;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #2c3e50);
+            color: white;
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 3px solid var(--secondary-color);
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .motto {
+            font-style: italic;
+            background-color: rgba(241, 196, 15, 0.2);
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        
+        /* 彩蛋样式 */
+        .easter-egg {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .easter-egg:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .easter-egg img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        /* 彩蛋消息弹窗 */
+        .egg-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            text-align: center;
+            max-width: 300px;
+            width: 80%;
+            opacity: 0;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+        
+        .egg-message.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        
+        .egg-message h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .egg-message p {
+            margin-bottom: 10px;
+            line-height: 1.5;
+            font-size: 1.2rem;
+        }
+        
+        .egg-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+        }
+        
+        /* 导航栏样式 */
+        nav {
+            background-color: var(--dark-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            position: relative;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-links a.active {
+            background-color: var(--primary-color);
+        }
+        
+        .mobile-menu {
+            display: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* 横幅样式 */
+        .banner {
+            background: linear-gradient(rgba(26, 82, 118, 0.8), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            color: white;
+            text-align: center;
+        }
+        
+        .banner-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .banner-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .banner-content p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #f39c12;
+            transform: translateY(-3px);
+        }
+        
+        /* 主要内容区域 */
+        .section {
+            padding: 60px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+        
+        /* 学习资源嵌入页面 */
+        .resources-embed {
+            margin-top: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            height: 600px;
+            display: none;
+        }
+        
+        .resources-embed.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .resources-embed iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* 班级特色图片 */
+        .feature-image {
+            margin-top: 40px;
+            text-align: center;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        
+        .feature-image.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .feature-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.5s;
+        }
+        
+        .feature-image img:hover {
+            transform: scale(1.02);
+        }
+        
+        /* 班级文化 */
+        .culture {
+            background-color: #f5f7fa;
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        
+        .culture h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .culture p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-style: italic;
+        }
+        
+        /* 班级待改进事项 */
+        .improvements {
+            background-color: #fff8e1;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        
+        .improvements h3 {
+            color: #e65100;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .improvements h3::before {
+            content: "⚠️";
+            margin-right: 10px;
+        }
+        
+        .improvements ul {
+            padding-left: 20px;
+        }
+        
+        .improvements li {
+            margin-bottom: 10px;
+        }
+        
+        /* 教师团队 */
+        .teachers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .teacher-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .teacher-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .teacher-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+        }
+        
+        .teacher-header h3 {
+            margin-bottom: 5px;
+        }
+        
+        .teacher-subject {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .teacher-info {
+            padding: 20px;
+        }
+        
+        .teacher-tag {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+        
+        /* 班级公告 */
+        .announcements {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .announcement-item {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            transition: background-color 0.3s;
+        }
+        
+        .announcement-item:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .announcement-item:last-child {
+            border-bottom: none;
+        }
+        
+        .announcement-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: var(--primary-color);
+        }
+        
+        .announcement-content h3 {
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        
+        .announcement-date {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary-color);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .contact-info {
+            list-style: none;
+        }
+        
+        .contact-info li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-info i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                justify-content: center;
+                margin-bottom: 15px;
+            }
+            
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: var(--dark-color);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .banner {
+                height: 300px;
+            }
+            
+            .banner-content h2 {
+                font-size: 2rem;
+            }
+            
+            .easter-egg {
+                width: 40px;
+                height: 40px;
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .resources-embed {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 彩蛋消息弹窗 -->
+    <div class="egg-message" id="eggMessage">
+        <span class="egg-close" id="eggClose">&times;</span>
+        <h3>彩蛋发现！</h3>
+        <p id="eggContent">彩蛋内容</p>
+    </div>
+
+    <!-- 彩蛋图标 -->
+    <div class="easter-egg" id="easterEgg">
+        <img src="http://35nb.bmzy.pw/1.jpg" alt="彩蛋">
+    </div>
+
+    <!-- 头部 -->
+    <header>
+        <div class="container header-content">
+            <div class="logo" id="logo">
+                <img src="http://35nb.bmzy.pw/1.jpg" alt="七年级35班班徽">
+                <div class="logo-text">
+                    <h1>七年级35班</h1>
+                    <p>团结 · 勤奋 · 创新 · 卓越</p>
+                    <div class="motto">"‘秦孝公‘（班主任）任用’商鞅‘（班长）‘变法’"</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 导航栏 -->
+    <nav>
+        <div class="container nav-container">
+            <ul class="nav-links">
+                <li><a href="#home" class="active">首页</a></li>
+                <li><a href="#news">班级动态</a></li>
+                <li><a href="#resources">学习资源</a></li>
+                <li><a href="#teachers">教师团队</a></li>
+                <li><a href="#honors">班级荣誉</a></li>
+                <li><a href="#contact">联系我们</a></li>
+            </ul>
+            <div class="mobile-menu">☰</div>
+        </div>
+    </nav>
+
+    <!-- 横幅 -->
+    <section class="banner" id="home">
+        <div class="container banner-content">
+            <h2>欢迎来到七年级35班</h2>
+            <p>我们是团结奋进的集体，在知识的海洋中扬帆起航，共同创造美好的明天。</p>
+            <a href="#news" class="btn">了解更多</a>
+        </div>
+    </section>
+
+    <!-- 班级特色 -->
+    <section class="section" id="features">
+        <div class="container">
+            <h2 class="section-title">班级特色</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>浓厚学习氛围</h3>
+                    <p>班级建立了互助学习小组，定期开展学习经验交流会，营造积极向上的学习氛围。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>丰富课外活动</h3>
+                    <p>定期组织文体活动、社会实践和主题班会，促进学生全面发展。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>团结互助精神</h3>
+                    <p>同学之间互帮互助，形成了"一人有难，全班支援"的良好班风。</p>
+                </div>
+            </div>
+            
+            <!-- 班级特色图片 -->
+            <div class="feature-image">
+                <img src="https://35nb.bmzy.pw/2.bmp" alt="七年级35班班级特色展示">
+            </div>
+            
+            <div class="culture">
+                <h3>我们的班级文化</h3>
+                <p>"‘秦孝公‘（班主任）任用’商鞅‘（班长）‘变法’" 象征着我们班级勇于创新、锐意进取的精神。在班主任李老师的带领下，我们不断突破自我，追求卓越！</p>
+            </div>
+            
+            <div class="improvements">
+                <h3>班级待改进事项</h3>
+                <ul>
+                    <li>上课时部分同学随意说话，影响课堂秩序</li>
+                    <li>需要加强课堂纪律，提高学习效率</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 班级公告 -->
+    <section class="section" id="news">
+        <div class="container">
+            <h2 class="section-title">班级公告</h2>
+            <div class="announcements">
+                <div class="announcement-item">
+                    <div class="announcement-icon">📢</div>
+                    <div class="announcement-content">
+                        <h3>期中考试安排通知</h3>
+                        <div class="announcement-date">2025年10月15日</div>
+                        <p>期中考试将于11月5日-7日进行，请同学们合理安排复习时间，做好充分准备。</p>
+                    </div>
+                </div>
+                <div class="announcement-item">
+                    <div class="announcement-icon">🎉</div>
+                    <div class="announcement-content">
+                        <h3>秋季运动会通知</h3>
+                        <div class="announcement-date">2025年10月25日</div>
+                        <p>学校秋季运动会将于10月30日举行，请同学们积极准备，为班级争光！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 学习资源 -->
+    <section class="section" id="resources" style="background-color: #f5f7fa;">
+        <div class="container">
+            <h2 class="section-title">学习资源</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">📖</div>
+                    <h3>语文学习资料</h3>
+                    <p>包含课文解析、作文技巧、古诗词鉴赏等丰富资源，帮助提升语文素养。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔢</div>
+                    <h3>数学题库</h3>
+                    <p>精选各类数学题目，涵盖基础题、应用题和拓展题，提升数学思维能力。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔠</div>
+                    <h3>英语学习</h3>
+                    <p>提供词汇表、语法讲解、听力练习和阅读材料，全面提高英语水平。</p>
+                </div>
+            </div>
+            
+            <!-- 学习资源嵌入页面 -->
+            <div class="resources-embed" id="resourcesEmbed">
+                <iframe src="http://35nb.bmzy.pw/404.html" frameborder="0"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- 教师团队 -->
+    <section class="section" id="teachers">
+        <div class="container">
+            <h2 class="section-title">教师团队</h2>
+            <div class="teachers">
+                <div class="teacher-card">
+                    <div class="teacher-header">
+                        <h3>李老师</h3>
+                        <div class="teacher-subject">班主任 / 历史老师</div>
+                    </div>
+                    <div class="teacher-info">
+                        <p>李海芳老师是我们的班主任兼历史老师，她像秦孝公一样知人善任，带领我们班级不断进步。</p>
+                        <div class="teacher-tag">班级领航者</div>
+                    </div>
+                </div>
+                <div class="teacher-card">
+                    <div class="teacher-header">
+                        <h3>田老师</h3>
+                        <div class="teacher-subject">语文教师</div>
+                    </div>
+                    <div class="teacher-info">
+                        <p>田老师教学经验丰富，注重培养学生的文学素养和表达能力。</p>
+                        <div class="teacher-tag">文学引路人</div>
+                    </div>
+                </div>
+                <div class="teacher-card">
+                    <div class="teacher-header">
+                        <h3>丁老师</h3>
+                        <div class="teacher-subject">数学教师</div>
+                    </div>
+                    <div class="teacher-info">
+                        <p>丁老师教学严谨，善于启发学生思维，培养逻辑能力。</p>
+                        <div class="teacher-tag">不定时拖堂版</div>
+                    </div>
+                </div>
+                <div class="teacher-card">
+                    <div class="teacher-header">
+                        <h3>Miss Lee</h3>
+                        <div class="teacher-subject">英语教师</div>
+                    </div>
+                    <div class="teacher-info">
+                        <p>Miss Lee教学方法新颖，注重口语实践，课堂生动有趣。</p>
+                        <div class="teacher-tag">国际视野</div>
+                    </div>
+                </div>
+                <div class="teacher-card">
+                    <div class="teacher-header">
+                        <h3>地理老师</h3>
+                        <div class="teacher-subject">地理教师</div>
+                    </div>
+                    <div class="teacher-info">
+                        <p>地理老师带领我们探索世界的奥秘，了解不同地区的自然与人文。</p>
+                        <div class="teacher-tag">世界探索者</div>
+                    </div>
+                </div>
+                <div class="teacher-card">
+                    <div class="teacher-header">
+                        <h3>生物老师</h3>
+                        <div class="teacher-subject">生物教师</div>
+                    </div>
+                    <div class="teacher-info">
+                        <p>生物老师引导我们认识生命科学，探索自然界的奥秘。</p>
+                        <div class="teacher-tag">生命科学家</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 班级荣誉 -->
+    <section class="section" id="honors" style="background-color: #f5f7fa;">
+        <div class="container">
+            <h2 class="section-title">班级荣誉</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🏅</div>
+                    <h3>军训第三名</h3>
+                    <p>在2025年新生军训中，我们班凭借出色的表现和团队精神，荣获全校第三名的好成绩。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏃</div>
+                    <h3>多次跑操第一</h3>
+                    <p>本学期我们班在跑操评比中多次获得第一名，展现了良好的纪律性和团队协作精神。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <p>七年级35班是一个团结友爱、积极向上的集体。我们秉持"勤奋、严谨、求实、创新"的班训，在学习和生活中互相帮助，共同进步，班长nb。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="#news">班级动态</a></li>
+                        <li><a href="#" id="resourcesLink">学习资源</a></li>
+                        <li><a href="#teachers">教师团队</a></li>
+                        <li><a href="#honors">班级荣誉</a></li>
+                        <li><a href="#contact">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <ul class="contact-info">
+                        <li>✉️ 电子邮箱：35nb@bmzy.pw</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2025 七年级35班 版权所有 | 设计制作：班级网站开发小组</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // 平滑滚动函数
+        function smoothScroll(targetId) {
+            const targetElement = document.getElementById(targetId);
+            if (!targetElement) return;
+            
+            const targetPosition = targetElement.offsetTop - 80; // 减去导航栏高度
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 800; // 滚动持续时间（毫秒）
+            let startTime = null;
+            
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const run = ease(timeElapsed, startPosition, distance, duration);
+                window.scrollTo(0, run);
+                if (timeElapsed < duration) requestAnimationFrame(animation);
+            }
+            
+            // 缓动函数 - 提供更自然的滚动效果
+            function ease(t, b, c, d) {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t + b;
+                t--;
+                return -c / 2 * (t * (t - 2) - 1) + b;
+            }
+            
+            requestAnimationFrame(animation);
+        }
+
+        // 导航链接点击事件 - 使用平滑滚动
+        document.querySelectorAll('.nav-links a, .footer-links a, .btn').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // 检查是否是内部链接
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    
+                    // 移除所有active类
+                    document.querySelectorAll('.nav-links a').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    // 为当前点击的链接添加active类
+                    this.classList.add('active');
+                    
+                    // 平滑滚动到目标位置
+                    const targetId = href.substring(1);
+                    smoothScroll(targetId);
+                    
+                    // 如果是移动端，点击后关闭菜单
+                    if (window.innerWidth <= 768) {
+                        document.querySelector('.nav-links').classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // 滚动时更新导航激活状态
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section, footer');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 丝滑滑动效果 - 滚动时显示元素
+        function checkVisibility() {
+            const sections = document.querySelectorAll('.section, .feature-image');
+            
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (sectionTop < windowHeight * 0.85) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+        
+        // 初始检查
+        checkVisibility();
+        
+        // 滚动时检查
+        window.addEventListener('scroll', checkVisibility);
+        
+        // 彩蛋功能 - 每次只显示一个随机词语
+        const easterEgg = document.getElementById('easterEgg');
+        const eggMessage = document.getElementById('eggMessage');
+        const eggClose = document.getElementById('eggClose');
+        const eggContent = document.getElementById('eggContent');
+        
+        // 彩蛋消息数组
+        const eggMessages = [
+            "班长NB",
+            "琪琪",
+            "尧尧",
+            "我为什么在35班(ο´･д･)??",
+            "你中奖了！！！",
+            "扣一个奖励币（bushi）",
+            "本网站由Bmzy LTD编写。"
+        ];
+        
+        easterEgg.addEventListener('click', function() {
+            // 随机选择一个消息
+            const randomIndex = Math.floor(Math.random() * eggMessages.length);
+            eggContent.textContent = eggMessages[randomIndex];
+            eggMessage.classList.add('active');
+        });
+        
+        eggClose.addEventListener('click', function() {
+            eggMessage.classList.remove('active');
+        });
+        
+        // 点击彩蛋消息外部关闭
+        window.addEventListener('click', function(e) {
+            if (e.target === eggMessage) {
+                eggMessage.classList.remove('active');
+            }
+        });
+        
+        // 头部logo点击效果
+        document.getElementById('logo').addEventListener('click', function() {
+            this.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 300);
+        });
+
+        // 学习资源嵌入功能
+        const resourcesEmbed = document.getElementById('resourcesEmbed');
+        const resourcesLink = document.getElementById('resourcesLink');
+        const navResourcesLink = document.querySelector('a[href="#resources"]');
+        
+        // 为快速链接和导航栏的学习资源链接添加点击事件
+        resourcesLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            smoothScroll('resources');
+            // 延迟显示嵌入页面，确保滚动完成
+            setTimeout(() => {
+                resourcesEmbed.classList.add('active');
+            }, 800);
+        });
+        
+        navResourcesLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            smoothScroll('resources');
+            // 延迟显示嵌入页面，确保滚动完成
+            setTimeout(() => {
+                resourcesEmbed.classList.add('active');
+            }, 800);
+        });
+        
+        // 当点击其他部分时隐藏嵌入页面
+        document.addEventListener('click', function(e) {
+            if (!resourcesEmbed.contains(e.target) && 
+                e.target !== resourcesLink && 
+                e.target !== navResourcesLink) {
+                resourcesEmbed.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
