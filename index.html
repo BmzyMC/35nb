@@ -207,6 +207,7 @@
             overflow: hidden;
             margin: 0 auto 15px;
             background-color: #000;
+            position: relative;
         }
         
         .special-egg-video video {
@@ -216,6 +217,36 @@
             border: none;
         }
         
+        .video-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            z-index: 10;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid var(--secondary-color);
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         .special-egg-close {
             position: absolute;
             top: 10px;
@@ -223,6 +254,40 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: white;
+        }
+        
+        /* 缓存状态指示器 */
+        .cache-status {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            z-index: 999;
+            display: none;
+        }
+        
+        .cache-status.active {
+            display: block;
+        }
+        
+        .cache-progress {
+            width: 100%;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .cache-progress-bar {
+            height: 100%;
+            background-color: var(--secondary-color);
+            width: 0%;
+            transition: width 0.3s;
         }
         
         /* 导航栏样式 */
@@ -738,10 +803,24 @@
             .special-egg-video {
                 height: 250px;
             }
+            
+            .cache-status {
+                bottom: 70px;
+                left: 15px;
+                right: 15px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 缓存状态指示器 -->
+    <div class="cache-status" id="cacheStatus">
+        <div>正在缓存网站资源...</div>
+        <div class="cache-progress">
+            <div class="cache-progress-bar" id="cacheProgress"></div>
+        </div>
+    </div>
+
     <!-- 彩蛋消息弹窗 -->
     <div class="egg-message" id="eggMessage">
         <span class="egg-close" id="eggClose">&times;</span>
@@ -755,7 +834,11 @@
         <h3>恭喜你，你看到另一个彩蛋了！</h3>
         <p>奖励你一个视频</p>
         <div class="special-egg-video">
-            <video controls autoplay muted>
+            <div class="video-loading" id="videoLoading">
+                <div class="loading-spinner"></div>
+                <div>正在加载视频...</div>
+            </div>
+            <video id="specialVideo" controls>
                 <source src="http://35nb.bmzy.pw/4.mp4" type="video/mp4">
                 您的浏览器不支持视频播放。
             </video>
@@ -1179,6 +1262,8 @@
         // 特殊彩蛋元素
         const specialEgg = document.getElementById('specialEgg');
         const specialEggClose = document.getElementById('specialEggClose');
+        const specialVideo = document.getElementById('specialVideo');
+        const videoLoading = document.getElementById('videoLoading');
         
         // 彩蛋消息数组
         const eggMessages = [
@@ -1201,6 +1286,16 @@
             // 如果点击次数达到35次，显示特殊彩蛋
             if (eggClickCount === 35) {
                 specialEgg.classList.add('active');
+                // 确保视频已缓存
+                if (specialVideo.readyState >= 3) {
+                    videoLoading.style.display = 'none';
+                    specialVideo.play();
+                } else {
+                    specialVideo.addEventListener('canplaythrough', function() {
+                        videoLoading.style.display = 'none';
+                        specialVideo.play();
+                    });
+                }
                 return;
             }
             
@@ -1216,6 +1311,8 @@
         
         specialEggClose.addEventListener('click', function() {
             specialEgg.classList.remove('active');
+            specialVideo.pause();
+            specialVideo.currentTime = 0;
         });
         
         // 点击彩蛋消息外部关闭
@@ -1225,6 +1322,8 @@
             }
             if (e.target === specialEgg) {
                 specialEgg.classList.remove('active');
+                specialVideo.pause();
+                specialVideo.currentTime = 0;
             }
         });
         
@@ -1267,6 +1366,75 @@
                 e.target !== navResourcesLink) {
                 resourcesEmbed.classList.remove('active');
             }
+        });
+
+        // 资源缓存功能
+        const cacheStatus = document.getElementById('cacheStatus');
+        const cacheProgress = document.getElementById('cacheProgress');
+        
+        // 需要缓存的资源列表
+        const resourcesToCache = [
+            'http://35nb.bmzy.pw/1.jpg', // 班徽
+            'http://35nb.bmzy.pw/3.mp4', // 班级特色视频
+            'https://35nb.bmzy.pw/2.bmp', // 班级特色图片
+            'http://35nb.bmzy.pw/4.mp4'  // 彩蛋视频
+        ];
+        
+        // 缓存资源函数
+        function cacheResources() {
+            cacheStatus.classList.add('active');
+            let loadedCount = 0;
+            
+            resourcesToCache.forEach(resource => {
+                // 创建预加载元素
+                if (resource.endsWith('.mp4')) {
+                    // 视频资源
+                    const video = document.createElement('video');
+                    video.preload = 'auto';
+                    video.src = resource;
+                    video.onloadeddata = () => {
+                        loadedCount++;
+                        updateProgress(loadedCount);
+                    };
+                    video.onerror = () => {
+                        loadedCount++;
+                        updateProgress(loadedCount);
+                    };
+                } else {
+                    // 图片资源
+                    const img = new Image();
+                    img.src = resource;
+                    img.onload = () => {
+                        loadedCount++;
+                        updateProgress(loadedCount);
+                    };
+                    img.onerror = () => {
+                        loadedCount++;
+                        updateProgress(loadedCount);
+                    };
+                }
+            });
+        }
+        
+        // 更新进度条
+        function updateProgress(loadedCount) {
+            const progress = (loadedCount / resourcesToCache.length) * 100;
+            cacheProgress.style.width = `${progress}%`;
+            
+            if (loadedCount === resourcesToCache.length) {
+                setTimeout(() => {
+                    cacheStatus.innerHTML = '<div>资源缓存完成！</div>';
+                    setTimeout(() => {
+                        cacheStatus.classList.remove('active');
+                    }, 2000);
+                }, 500);
+            }
+        }
+        
+        // 页面加载完成后开始缓存
+        window.addEventListener('load', function() {
+            // 延迟一点开始缓存，确保页面主要内容已加载
+            setTimeout(cacheResources, 1000);
         });
     </script>
 </body>
