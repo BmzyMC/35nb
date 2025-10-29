@@ -327,6 +327,36 @@
             color: var(--dark-color);
         }
         
+        /* 班级特色视频 */
+        .feature-video {
+            margin-top: 40px;
+            text-align: center;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+        
+        .feature-video.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .feature-video video {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 10px;
+            outline: none;
+        }
+        
+        .video-caption {
+            margin-top: 15px;
+            font-style: italic;
+            color: #666;
+        }
+        
         /* 学习资源嵌入页面 */
         .resources-embed {
             margin-top: 40px;
@@ -566,7 +596,7 @@
         .footer-links a {
             color: #bbb;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: color 0.3;
         }
         
         .footer-links a:hover {
@@ -720,6 +750,15 @@
                 </div>
             </div>
             
+            <!-- 班级特色视频 -->
+            <div class="feature-video">
+                <video controls poster="http://35nb.bmzy.pw/1.jpg">
+                    <source src="http://35nb.bmzy.pw/3.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+                <div class="video-caption">曼波QAQ</div>
+            </div>
+            
             <!-- 班级特色图片 -->
             <div class="feature-image">
                 <img src="https://35nb.bmzy.pw/2.bmp" alt="七年级35班班级特色展示">
@@ -750,7 +789,7 @@
                     <div class="announcement-content">
                         <h3>期中考试安排通知</h3>
                         <div class="announcement-date">2025年10月15日</div>
-                        <p>期中考试将于11月5日-7日进行，请同学们合理安排复习时间，做好充分准备。</p>
+                        <p>期中考试将于11月10日-13日进行，请同学们合理安排复习时间，做好充分准备。</p>
                     </div>
                 </div>
                 <div class="announcement-item">
@@ -1027,7 +1066,7 @@
 
         // 丝滑滑动效果 - 滚动时显示元素
         function checkVisibility() {
-            const sections = document.querySelectorAll('.section, .feature-image');
+            const sections = document.querySelectorAll('.section, .feature-image, .feature-video');
             
             sections.forEach(section => {
                 const sectionTop = section.getBoundingClientRect().top;
