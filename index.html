@@ -164,6 +164,67 @@
             color: white;
         }
         
+        /* 特殊彩蛋弹窗（视频彩蛋） */
+        .special-egg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            z-index: 1002;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            opacity: 0;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+        
+        .special-egg.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        
+        .special-egg h3 {
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+        }
+        
+        .special-egg p {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .special-egg-video {
+            width: 100%;
+            max-width: 560px;
+            height: 315px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto 15px;
+            background-color: #000;
+        }
+        
+        .special-egg-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: none;
+        }
+        
+        .special-egg-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+        }
+        
         /* 导航栏样式 */
         nav {
             background-color: var(--dark-color);
@@ -349,12 +410,6 @@
             max-width: 800px;
             border-radius: 10px;
             outline: none;
-        }
-        
-        .video-caption {
-            margin-top: 15px;
-            font-style: italic;
-            color: #666;
         }
         
         /* 学习资源嵌入页面 */
@@ -596,7 +651,7 @@
         .footer-links a {
             color: #bbb;
             text-decoration: none;
-            transition: color 0.3;
+            transition: color 0.3s;
         }
         
         .footer-links a:hover {
@@ -674,6 +729,15 @@
             .resources-embed {
                 height: 400px;
             }
+            
+            .special-egg {
+                width: 95%;
+                padding: 15px;
+            }
+            
+            .special-egg-video {
+                height: 250px;
+            }
         }
     </style>
 </head>
@@ -683,6 +747,20 @@
         <span class="egg-close" id="eggClose">&times;</span>
         <h3>彩蛋发现！</h3>
         <p id="eggContent">彩蛋内容</p>
+    </div>
+
+    <!-- 特殊彩蛋弹窗（视频彩蛋） -->
+    <div class="special-egg" id="specialEgg">
+        <span class="special-egg-close" id="specialEggClose">&times;</span>
+        <h3>恭喜你，你看到另一个彩蛋了！</h3>
+        <p>奖励你一个视频</p>
+        <div class="special-egg-video">
+            <video controls autoplay muted>
+                <source src="http://35nb.bmzy.pw/4.mp4" type="video/mp4">
+                您的浏览器不支持视频播放。
+            </video>
+        </div>
+        <p>希望你喜欢这个惊喜！</p>
     </div>
 
     <!-- 彩蛋图标 -->
@@ -724,6 +802,8 @@
         <div class="container banner-content">
             <h2>欢迎来到七年级35班</h2>
             <p>我们是团结奋进的集体，在知识的海洋中扬帆起航，共同创造美好的明天。</p>
+            <!-- 新增运动会鼓励话语 -->
+            <p style="margin-top: 10px; font-weight: bold; color: var(--secondary-color);">今天是运动会，35班加油！全力以赴，赛出风采！</p>
             <a href="#news" class="btn">了解更多</a>
         </div>
     </section>
@@ -756,7 +836,7 @@
                     <source src="http://35nb.bmzy.pw/3.mp4" type="video/mp4">
                     您的浏览器不支持视频播放。
                 </video>
-                <div class="video-caption">曼波QAQ</div>
+                <!-- 已删除视频说明文字 -->
             </div>
             
             <!-- 班级特色图片 -->
@@ -942,6 +1022,12 @@
                     <h3>足球比赛第一</h3>
                     <p>在校足球比赛中，我们班足球队奋勇拼搏，最终夺得冠军，为班级争光！</p>
                 </div>
+                <!-- 新增班级文化墙第一荣誉 -->
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>班级文化墙第一</h3>
+                    <p>在班级文化墙评比中，我们班凭借创意设计和精美制作荣获第一名。</p>
+                </div>
             </div>
         </div>
     </section>
@@ -1090,6 +1176,10 @@
         const eggClose = document.getElementById('eggClose');
         const eggContent = document.getElementById('eggContent');
         
+        // 特殊彩蛋元素
+        const specialEgg = document.getElementById('specialEgg');
+        const specialEggClose = document.getElementById('specialEggClose');
+        
         // 彩蛋消息数组
         const eggMessages = [
             "班长NB",
@@ -1101,7 +1191,19 @@
             "本网站由Bmzy LTD编写。"
         ];
         
+        // 彩蛋点击计数器
+        let eggClickCount = 0;
+        
         easterEgg.addEventListener('click', function() {
+            // 增加点击计数器
+            eggClickCount++;
+            
+            // 如果点击次数达到35次，显示特殊彩蛋
+            if (eggClickCount === 35) {
+                specialEgg.classList.add('active');
+                return;
+            }
+            
             // 随机选择一个消息
             const randomIndex = Math.floor(Math.random() * eggMessages.length);
             eggContent.textContent = eggMessages[randomIndex];
@@ -1112,10 +1214,17 @@
             eggMessage.classList.remove('active');
         });
         
+        specialEggClose.addEventListener('click', function() {
+            specialEgg.classList.remove('active');
+        });
+        
         // 点击彩蛋消息外部关闭
         window.addEventListener('click', function(e) {
             if (e.target === eggMessage) {
                 eggMessage.classList.remove('active');
+            }
+            if (e.target === specialEgg) {
+                specialEgg.classList.remove('active');
             }
         });
         
